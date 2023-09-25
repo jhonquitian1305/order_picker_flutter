@@ -55,6 +55,7 @@ class _LoginDemoState extends State<LoginDemo> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: ElevatedButton(
+                  style: Theme.of(context).textButtonTheme.style,
                   child: const Text(
                     'Log in ',
                     style: TextStyle(color: Colors.white, fontSize: 20),
@@ -71,6 +72,7 @@ class _LoginDemoState extends State<LoginDemo> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: ElevatedButton(
+                  style: Theme.of(context).textButtonTheme.style,
                   child: const Text(
                     'Register',
                     style: TextStyle(color: Colors.white, fontSize: 20),
