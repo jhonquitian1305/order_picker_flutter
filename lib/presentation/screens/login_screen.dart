@@ -1,4 +1,11 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+import '../widgets/basic_form_button.dart';
+import '../widgets/basic_form_field.dart';
 
 class LoginDemo extends StatefulWidget {
   const LoginDemo({super.key});
@@ -8,6 +15,8 @@ class LoginDemo extends StatefulWidget {
 }
 
 class _LoginDemoState extends State<LoginDemo> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,65 +36,52 @@ class _LoginDemoState extends State<LoginDemo> {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Username',
-                    hintText: 'Enter valid username'),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: BasicFormField(textController: emailController),
             ),
-            const Padding(
-              padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
+              child: BasicFormField(
+                textController: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter password'),
               ),
             ),
-            SizedBox(
-              height: 65,
-              width: 360,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: ElevatedButton(
-                  style: Theme.of(context).textButtonTheme.style,
-                  child: const Text(
-                    'Log in ',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    print('Successfully log in ');
-                  },
-                ),
-              ),
+            BasicFormButton(
+              text: "Log In",
+              onPressed: () =>
+                  login(emailController.text, passwordController.text),
             ),
-            SizedBox(
-              height: 65,
-              width: 360,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: ElevatedButton(
-                  style: Theme.of(context).textButtonTheme.style,
-                  child: const Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    print('Register');
-                  },
-                ),
-              ),
+            BasicFormButton(
+              text: "Register",
+              onPressed: () => print("register"),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+void login(String email, password) async {
+  try {
+    Response response = await post(
+        Uri.parse('http://192.168.1.112:8080/api/order-picker/auth/login'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({'email': email, 'password': password}));
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body.toString());
+      print(data['token']);
+      print(data);
+      print('Login successfully');
+    } else {
+      print('failed');
+    }
+  } catch (e) {
+    print(e.toString());
   }
 }
