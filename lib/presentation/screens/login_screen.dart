@@ -2,23 +2,21 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:order_picker/presentation/providers/secure_storage_provider.dart';
+import 'package:order_picker/presentation/screens/default_screen.dart';
 
 import '../widgets/basic_form_button.dart';
 import '../widgets/basic_form_field.dart';
 
-class LoginDemo extends StatefulWidget {
-  const LoginDemo({super.key});
+class LoginDemo extends ConsumerWidget {
+  LoginDemo({super.key});
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
-  _LoginDemoState createState() => _LoginDemoState();
-}
-
-class _LoginDemoState extends State<LoginDemo> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,7 +37,11 @@ class _LoginDemoState extends State<LoginDemo> {
             Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: BasicFormField(textController: emailController),
+              child: BasicFormField(
+                textController: emailController,
+                labelText: "Username",
+                hintText: "Enter your username.",
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -48,13 +50,22 @@ class _LoginDemoState extends State<LoginDemo> {
               child: BasicFormField(
                 textController: passwordController,
                 obscureText: true,
+                labelText: "Password",
+                hintText: "Enter your password.",
               ),
             ),
             BasicFormButton(
-              text: "Log In",
-              onPressed: () =>
-                  login(emailController.text, passwordController.text),
-            ),
+                text: "Log In",
+                onPressed: () async {
+                  await login(
+                      emailController.text, passwordController.text, ref);
+                  print(await ref
+                      .watch(storageProvider.notifier)
+                      .state
+                      .read(key: "jwt"));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => DefaultScreen()));
+                }),
             BasicFormButton(
               text: "Register",
               onPressed: () => print("register"),
@@ -66,18 +77,19 @@ class _LoginDemoState extends State<LoginDemo> {
   }
 }
 
-void login(String email, password) async {
+Future<void> login(String email, String password, WidgetRef ref) async {
   try {
     Response response = await post(
         Uri.parse('http://192.168.1.112:8080/api/order-picker/auth/login'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({'email': email, 'password': password}));
-    print(response.body.toString());
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body.toString());
-      print(data['token']);
-      print(data);
-      print('Login successfully');
+      print("success");
+      var token = jsonDecode(response.body.toString())['token'];
+      await ref
+          .read(storageProvider.notifier)
+          .state
+          .write(key: 'jwt', value: token);
     } else {
       print('failed');
     }

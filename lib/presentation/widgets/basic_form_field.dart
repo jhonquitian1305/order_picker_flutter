@@ -5,19 +5,23 @@ class BasicFormField extends StatelessWidget {
     super.key,
     required this.textController,
     this.obscureText = false,
+    this.labelText = " ",
+    this.hintText = " ",
   });
   final bool obscureText;
   final TextEditingController textController;
+  final String labelText;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: textController,
       obscureText: obscureText,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Username',
-          hintText: 'Enter valid username'),
+      decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: labelText,
+          hintText: hintText),
     );
   }
 }
