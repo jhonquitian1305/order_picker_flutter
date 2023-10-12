@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:order_picker/presentation/screens/image_service.dart';
 import 'package:tabler_icons/tabler_icons.dart';
 
 class NewProductDemo extends StatefulWidget {
@@ -51,7 +52,11 @@ class _NewProductDemoState extends State<NewProductDemo> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (imageFile != null) {
+                      uploadImage(imageFile!).then((value) => {});
+                    }
+                  },
                 ),
               ],
             ),
