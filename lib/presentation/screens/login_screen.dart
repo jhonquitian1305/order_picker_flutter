@@ -80,7 +80,7 @@ class LoginDemo extends ConsumerWidget {
 Future<void> login(String email, String password, WidgetRef ref) async {
   try {
     Response response = await post(
-        Uri.parse('http://192.168.1.112:8080/api/order-picker/auth/login'),
+        Uri.parse('http://my_ip:8080/api/order-picker/auth/login'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({'email': email, 'password': password}));
     if (response.statusCode == 200) {

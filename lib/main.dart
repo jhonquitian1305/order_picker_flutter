@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:order_picker/config/theme/app_theme.dart';
 import 'package:order_picker/presentation/screens/login_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:order_picker/presentation/screens/orders_screen.dart';
+import 'package:order_picker/presentation/screens/products_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme().getTheme(),
-      home: LoginDemo(),
+      home: const ProductsView(),
     );
   }
 }
