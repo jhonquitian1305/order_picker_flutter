@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:order_picker/domain/entities/product.dart';
+import 'package:order_picker/infrastructure/datasources/url_string.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 
 void main() => runApp(const ProductsView());
@@ -21,7 +22,7 @@ class _ProductsViewState extends State<ProductsView> {
 
   Future<List<Product>> getProducts() async {
     final response = await http.get(
-      Uri.parse("http://my_ip:8080/api/order-picker/products"),
+      Uri.parse("$url/products"),
     );
 
     List<Product> products = [];

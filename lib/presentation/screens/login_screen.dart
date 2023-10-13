@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:order_picker/infrastructure/datasources/url_string.dart';
 import 'package:order_picker/presentation/providers/secure_storage_provider.dart';
 import 'package:order_picker/presentation/screens/default_screen.dart';
 
@@ -79,8 +80,7 @@ class LoginDemo extends ConsumerWidget {
 
 Future<void> login(String email, String password, WidgetRef ref) async {
   try {
-    Response response = await post(
-        Uri.parse('http://my_ip:8080/api/order-picker/auth/login'),
+    Response response = await post(Uri.parse('$url/auth/login'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({'email': email, 'password': password}));
     if (response.statusCode == 200) {

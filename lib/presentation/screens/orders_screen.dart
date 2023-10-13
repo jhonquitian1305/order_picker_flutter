@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:order_picker/domain/entities/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:order_picker/infrastructure/datasources/url_string.dart';
+import 'package:order_picker/presentation/screens/products_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() => runApp(const OrdersView());
@@ -20,7 +22,7 @@ class _OrdersViewState extends State<OrdersView> {
 
   Future<List<Order>> getOrders() async {
     final response = await http.get(
-      Uri.parse("http://my_ip:8080/api/order-picker/orders"),
+      Uri.parse("$url/orders"),
     );
 
     List<Order> orders = [];
@@ -101,12 +103,12 @@ class _OrdersViewState extends State<OrdersView> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          color: Colors.white,
-          margin: const EdgeInsets.all(20),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.black),
+                  side: const BorderSide(color: Color(0xff555555)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 alignment: Alignment.topLeft,
@@ -142,6 +144,7 @@ class _OrdersViewState extends State<OrdersView> {
                         relativeDate,
                         style: const TextStyle(
                           color: Color(0xFF555555),
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -153,6 +156,7 @@ class _OrdersViewState extends State<OrdersView> {
                         style: const TextStyle(
                           color: Color(0xFF555555),
                           fontSize: 15,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
@@ -174,6 +178,44 @@ class _OrdersViewState extends State<OrdersView> {
       );
     }
 
+    orders.add(
+      buttonNewOrder(),
+    );
+
     return orders;
+  }
+
+  Widget buttonNewOrder() {
+    return Column(
+      children: [
+        Center(
+          child: Column(
+            children: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProductsView(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  "New order",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
