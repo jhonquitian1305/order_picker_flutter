@@ -15,3 +15,5 @@ Future<String> uploadImage(File image) async {
   print("parece que funcó");
   return await imageRef.getDownloadURL();
 }
+
+

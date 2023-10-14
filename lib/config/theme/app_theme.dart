@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   ThemeData getTheme() => ThemeData(
@@ -22,6 +23,7 @@ class AppTheme {
             ),
           ),
         ),
+        textTheme: GoogleFonts.redHatDisplayTextTheme(),
         useMaterial3: true,
       );
 }
