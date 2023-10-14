@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:order_picker/infrastructure/datasources/url_string.dart';
+import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/secure_storage_provider.dart';
 import 'package:order_picker/presentation/screens/default_screen.dart';
+import 'package:order_picker/presentation/screens/orders_screen.dart';
 
 import '../widgets/basic_form_button.dart';
 import '../widgets/basic_form_field.dart';
@@ -65,7 +65,7 @@ class LoginDemo extends ConsumerWidget {
                       .state
                       .read(key: "jwt"));
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => DefaultScreen()));
+                      MaterialPageRoute(builder: (context) => OrdersView()));
                 }),
             BasicFormButton(
               text: "Register",

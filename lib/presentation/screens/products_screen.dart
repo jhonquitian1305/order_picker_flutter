@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
-import 'package:order_picker/infrastructure/datasources/url_string.dart';
+import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
 
@@ -156,7 +156,7 @@ class _ProductsViewState extends State<ProductsView> {
         print("${product.name} ${product.amount}");
       }
       try {
-        Response response = await post(Uri.parse("$url/orders/user/2"),
+        Response response = await post(Uri.parse("$url/orders/user/1"),
             headers: {"Content-Type": "application/json"},
             body: jsonEncode({
               "products": listProductsChose,

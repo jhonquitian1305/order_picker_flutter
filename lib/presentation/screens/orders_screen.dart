@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:order_picker/domain/entities/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:order_picker/infrastructure/datasources/url_string.dart';
+import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -23,7 +23,7 @@ class _OrdersViewState extends State<OrdersView> {
 
   Future<List<Order>> getOrders() async {
     final response = await http.get(
-      Uri.parse("$url/orders"),
+      Uri.parse("$url/orders/user/1"),
     );
 
     List<Order> orders = [];
@@ -126,7 +126,7 @@ class _OrdersViewState extends State<OrdersView> {
                   children: [
                     SizedBox(
                       width: 380,
-                      height: 100,
+                      height: 200,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Text(
