@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
 import 'package:order_picker/infrastructure/datasources/url_string.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
@@ -18,8 +19,9 @@ class ProductsView extends StatefulWidget {
 }
 
 class _ProductsViewState extends State<ProductsView> {
-  int counter = 0;
   late Future<List<Product>> listProducts;
+
+  List<ProductDTO> listProductsChose = [];
 
   Future<List<Product>> getProducts() async {
     final response = await http.get(
@@ -125,7 +127,9 @@ class _ProductsViewState extends State<ProductsView> {
                       side: BorderSide(color: Color(0xff555555)),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    chooseAmount(context, product);
+                  },
                   child: const ColorFiltered(
                     colorFilter:
                         ColorFilter.mode(Colors.white, BlendMode.srcIn),
@@ -147,7 +151,22 @@ class _ProductsViewState extends State<ProductsView> {
   }
 
   Widget buttonFinishOrder() {
-    finishOrder() {
+    finishOrder() async {
+      for (var product in listProductsChose) {
+        print("${product.name} ${product.amount}");
+      }
+      try {
+        Response response = await post(Uri.parse("$url/orders/user/2"),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode({
+              "products": listProductsChose,
+            }));
+        print(response.statusCode);
+        listProductsChose = [];
+      } catch (e) {
+        print(e.toString());
+        print("Jeison te amo");
+      }
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -170,6 +189,46 @@ class _ProductsViewState extends State<ProductsView> {
           ),
         ),
       ],
+    );
+  }
+
+  chooseAmount(BuildContext context, Product product) {
+    TextEditingController amountProduct = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Bienvenido"),
+        content: const Text("Hola"),
+        actions: [
+          TextField(
+            controller: amountProduct,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'amount',
+              hintText: "Enter amount of product.",
+            ),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.amber,
+            ),
+            onPressed: () {
+              String amountText = amountProduct.text;
+              int amount = int.tryParse(amountText) ?? 0;
+
+              ProductDTO productChose = ProductDTO(
+                product.name.toString(),
+                amount,
+              );
+              listProductsChose.add(productChose);
+              amountProduct.clear();
+            },
+            child: const Text(
+              "Aceptar",
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
