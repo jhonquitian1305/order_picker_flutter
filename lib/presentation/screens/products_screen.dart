@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:order_picker/domain/entities/product.dart';
 import 'package:order_picker/infrastructure/datasources/url_string.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
+import 'package:order_picker/presentation/widgets/button_card.dart';
 
 void main() => runApp(const ProductsView());
 
@@ -82,44 +83,57 @@ class _ProductsViewState extends State<ProductsView> {
     for (var product in data) {
       products.add(
         Card(
-          child: Column(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: const BorderSide(color: Color(0xff555555)),
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          color: Colors.white,
+          child: Stack(
             children: [
-              Row(
-                children: [
-                  Text(
-                      '${product.name.toUpperCase()} ${product.price.toString()}'),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const OrdersView(),
-                        ),
-                      );
-                      setState(() {
-                        counter++;
-                      });
-                      print(
-                          'id: ${product.id} -> ${product.name}, amount : $counter');
-                    },
-                    child: const Row(
-                      children: [Text("+")],
+              SizedBox(
+                width: 380,
+                height: 80,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12, left: 10),
+                  child: Text(
+                    product.name.toUpperCase(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
-                  Text(counter.toString()),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        counter--;
-                      });
-                      print(
-                          'id: ${product.id} -> ${product.name}, amount : $counter');
-                    },
-                    child: const Row(
-                      children: [Text("-")],
+                ),
+              ),
+              Positioned(
+                top: 45,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    '\$ ${product.price}',
+                    style: const TextStyle(fontWeight: FontWeight.w300),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 20,
+                right: 10,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: const CircleBorder(
+                      side: BorderSide(color: Color(0xff555555)),
                     ),
                   ),
-                ],
+                  onPressed: () {},
+                  child: const ColorFiltered(
+                    colorFilter:
+                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    child: Icon(
+                      Icons.add_shopping_cart_rounded,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -127,6 +141,35 @@ class _ProductsViewState extends State<ProductsView> {
       );
     }
 
+    products.add(buttonFinishOrder());
+
     return products;
+  }
+
+  Widget buttonFinishOrder() {
+    finishOrder() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OrdersView(),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        Center(
+          child: Column(
+            children: [
+              ButtonCard(
+                context: context,
+                text: "Finish Order",
+                onPressed: finishOrder,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

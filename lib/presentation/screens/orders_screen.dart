@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:order_picker/infrastructure/datasources/url_string.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
+import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() => runApp(const OrdersView());
@@ -186,31 +187,24 @@ class _OrdersViewState extends State<OrdersView> {
   }
 
   Widget buttonNewOrder() {
+    createNewOrder() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ProductsView(),
+        ),
+      );
+    }
+
     return Column(
       children: [
         Center(
           child: Column(
             children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProductsView(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  "New order",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+              ButtonCard(
+                context: context,
+                text: "New Order",
+                onPressed: createNewOrder,
               ),
             ],
           ),
