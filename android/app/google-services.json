@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1017658897245",
+    "project_id": "order-picker-bf126",
+    "storage_bucket": "order-picker-bf126.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017658897245:android:d051f93509c65971a32eb4",
+        "android_client_info": {
+          "package_name": "com.example.order_picker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEphfSGmT5y6U-G4230ZEjOvZ14mB_ZoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017658897245:android:fc3bddefcedd3390a32eb4",
+        "android_client_info": {
+          "package_name": "com.example.order_picker_tests"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEphfSGmT5y6U-G4230ZEjOvZ14mB_ZoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:order_picker/config/theme/app_theme.dart';
-import 'package:order_picker/presentation/screens/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
 
-void main() {
+void main() async {
   runApp(const ProviderScope(child: MyApp()));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {

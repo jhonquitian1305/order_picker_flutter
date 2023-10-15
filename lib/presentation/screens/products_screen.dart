@@ -35,8 +35,12 @@ class _ProductsViewState extends State<ProductsView> {
       final jsonData = jsonDecode(body);
       for (var product in jsonData["content"]) {
         products.add(
-          Product(product["id"], product["name"], product["amount"],
-              product["price"]),
+          Product(
+            id: product["id"],
+            name: product["name"],
+            amount: product["amount"],
+            price: product["price"],
+          ),
         );
       }
       return products;
