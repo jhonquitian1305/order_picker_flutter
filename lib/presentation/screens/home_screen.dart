@@ -1,38 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:order_picker/main.dart';
+import 'package:order_picker/presentation/providers/auth_provider.dart';
+import 'package:order_picker/presentation/screens/login_screen.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
-import 'package:order_picker/presentation/screens/register_screen.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  static const appTitle = 'Drawer Demo';
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: appTitle,
-      home: MyHomePage(title: appTitle),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     const OrdersView(),
     const ProductsView(),
+    LoginScreen(
+      appTitle: "aa",
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -77,6 +67,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 _onItemTapped(1);
                 // Then close the drawer
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Log Out'),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                ref.read(authProvider.notifier).logout();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const MyApp(),
+                    ),
+                    ModalRoute.withName('/'));
               },
             ),
           ],

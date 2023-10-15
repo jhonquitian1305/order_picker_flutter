@@ -60,7 +60,7 @@ class LoginScreen extends ConsumerWidget {
                   if (context.mounted) {
                     logged
                         ? Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MyHomePage(
+                            builder: (context) => HomeScreen(
                                   title: appTitle,
                                 )))
                         : showDialog<String>(
