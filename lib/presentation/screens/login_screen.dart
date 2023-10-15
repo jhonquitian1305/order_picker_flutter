@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
-import 'package:order_picker/infrastructure/constants/url_string.dart';
-import 'package:order_picker/presentation/providers/secure_storage_provider.dart';
+import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 
 import '../widgets/basic_form_button.dart';
@@ -17,8 +13,6 @@ class LoginScreen extends ConsumerWidget {
   final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(storageProvider).deleteAll();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -59,12 +53,9 @@ class LoginScreen extends ConsumerWidget {
             BasicFormButton(
                 text: "Log In",
                 onPressed: () async {
-                  bool logged = await login(
-                      emailController.text, passwordController.text, ref);
-                  print(await ref
-                      .watch(storageProvider.notifier)
-                      .state
-                      .read(key: "jwt"));
+                  bool logged = await ref
+                      .read(authProvider.notifier)
+                      .login(emailController.text, passwordController.text);
                   if (context.mounted) {
                     logged
                         ? Navigator.of(context).push(MaterialPageRoute(
@@ -97,28 +88,5 @@ class LoginScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-}
-
-Future<bool> login(String email, String password, WidgetRef ref) async {
-  try {
-    Response response = await post(Uri.parse('$url/auth/login'),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({'email': email, 'password': password}));
-    if (response.statusCode == 200) {
-      print("success");
-      var token = jsonDecode(response.body.toString())['token'];
-      await ref
-          .read(storageProvider.notifier)
-          .state
-          .write(key: 'jwt', value: token);
-      return true;
-    } else {
-      print('failed');
-      return false;
-    }
-  } catch (e) {
-    print(e.toString());
-    return false;
   }
 }
