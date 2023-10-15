@@ -1,7 +1,7 @@
 class User {
   final int id;
   final String name;
-  final String role;
+  final Role role;
   final String jwt;
 
   User({

@@ -1,18 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
-import 'package:order_picker/presentation/providers/auth_provider.dart';
-import 'package:order_picker/presentation/screens/orders_screen.dart';
-import 'dart:convert';
+import 'package:order_picker/presentation/widgets/basic_form_button.dart';
+import 'package:order_picker/presentation/widgets/basic_form_field.dart';
 
-import 'package:http/http.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
-
-import '../widgets/basic_form_button.dart';
-import '../widgets/basic_form_field.dart';
-
-class RegisterScreen extends ConsumerWidget {
+class RegisterForm extends StatelessWidget {
+  RegisterForm({super.key, required this.userRole});
+  final Role userRole;
   final TextEditingController dniController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
 
@@ -22,17 +18,10 @@ class RegisterScreen extends ConsumerWidget {
   final TextEditingController phoneController = TextEditingController();
 
   final TextEditingController roleController = TextEditingController();
-
-  RegisterScreen({super.key});
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text("Register"),
-      ),
-      body: SingleChildScrollView(
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             const Padding(
@@ -86,7 +75,6 @@ class RegisterScreen extends ConsumerWidget {
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: BasicFormField(
                 textController: addressController,
-                obscureText: true,
                 labelText: "Address",
                 hintText: "Enter your address.",
               ),
@@ -96,7 +84,6 @@ class RegisterScreen extends ConsumerWidget {
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               child: BasicFormField(
                 textController: phoneController,
-                obscureText: true,
                 labelText: "Phone",
                 hintText: "Enter your phone number.",
               ),
@@ -111,7 +98,7 @@ class RegisterScreen extends ConsumerWidget {
                       password: passwordController.text,
                       address: addressController.text,
                       phone: phoneController.text,
-                      role: Role.user);
+                      role: userRole);
                   if (context.mounted) {
                     logged
                         ? customAlertDialog(
@@ -122,28 +109,6 @@ class RegisterScreen extends ConsumerWidget {
                 }),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<String?> customAlertDialog(
-      BuildContext context, String title, String content) {
-    return showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(title),
-        content: Text(
-          content,
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text(
-              'OK',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -174,4 +139,26 @@ Future<bool> register({
   } catch (e) {
     rethrow;
   }
+}
+
+Future<String?> customAlertDialog(
+    BuildContext context, String title, String content) {
+  return showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: Text(title),
+      content: Text(
+        content,
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text(
+            'OK',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ],
+    ),
+  );
 }

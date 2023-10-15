@@ -74,10 +74,16 @@ class _NewProductDemoState extends State<NewProductDemo> {
                     await createProduct(newProduct);
                   },
                 ),
-              ],
-            ),
-          ]),
-        ),
+                onPressed: () async {
+                  if (!validNewProduct()) {
+                    return;
+                  }
+                  await createProduct(newProduct);
+                },
+              ),
+            ],
+          ),
+        ]),
       ),
     );
   }

@@ -23,6 +23,11 @@ class AuthNotifier extends StateNotifier<AuthProvider> {
       : super(const AuthProvider(
             status: AuthStatus.unauthenticated, loggedUser: null));
 
+  void logout() {
+    state =
+        state.copyWith(status: AuthStatus.unauthenticated, loggedUser: null);
+  }
+
   Future<bool> login(String email, String password) async {
     try {
       Response response = await post(Uri.parse('$url/auth/login'),
@@ -36,7 +41,8 @@ class AuthNotifier extends StateNotifier<AuthProvider> {
             loggedUser: User(
                 id: decodedToken["id"],
                 name: decodedToken["sub"],
-                role: decodedToken["role"],
+                role: Role.values
+                    .firstWhere((role) => role.value == decodedToken["role"]),
                 jwt: token));
         return true;
       } else {

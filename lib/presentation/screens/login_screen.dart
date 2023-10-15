@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
-import 'package:order_picker/presentation/screens/orders_screen.dart';
-import 'package:order_picker/presentation/screens/register_screen.dart';
+import 'package:order_picker/presentation/screens/home_screen.dart';
+import 'package:order_picker/presentation/screens/register_user_screen.dart';
 
 import '../widgets/basic_form_button.dart';
 import '../widgets/basic_form_field.dart';
 
 class LoginScreen extends ConsumerWidget {
-  LoginScreen({super.key});
-
+  LoginScreen({super.key, required this.appTitle});
+  final String appTitle;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   @override
@@ -17,7 +17,7 @@ class LoginScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Login"),
+        title: Text(appTitle),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -60,7 +60,9 @@ class LoginScreen extends ConsumerWidget {
                   if (context.mounted) {
                     logged
                         ? Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const OrdersView()))
+                            builder: (context) => HomeScreen(
+                                  title: appTitle,
+                                )))
                         : showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
@@ -84,8 +86,8 @@ class LoginScreen extends ConsumerWidget {
                 }),
             BasicFormButton(
               text: "Register",
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RegisterScreen())),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => RegisterUserScreen())),
             ),
           ],
         ),
