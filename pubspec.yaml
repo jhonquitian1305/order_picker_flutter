@@ -41,6 +41,7 @@ dependencies:
   flutter_riverpod: ^2.4.1
   intl: ^0.18.1
   timeago: ^3.5.0
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
