@@ -5,19 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/secure_storage_provider.dart';
-import 'package:order_picker/presentation/screens/default_screen.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 
 import '../widgets/basic_form_button.dart';
 import '../widgets/basic_form_field.dart';
 
-class LoginDemo extends ConsumerWidget {
-  LoginDemo({super.key});
+class LoginScreen extends ConsumerWidget {
+  LoginScreen({super.key});
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(storageProvider).deleteAll();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -58,14 +59,35 @@ class LoginDemo extends ConsumerWidget {
             BasicFormButton(
                 text: "Log In",
                 onPressed: () async {
-                  await login(
+                  bool logged = await login(
                       emailController.text, passwordController.text, ref);
                   print(await ref
                       .watch(storageProvider.notifier)
                       .state
                       .read(key: "jwt"));
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => OrdersView()));
+                  if (context.mounted) {
+                    logged
+                        ? Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const OrdersView()))
+                        : showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Error'),
+                              content:
+                                  const Text('Usuario o contraseña incorrecto'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'OK'),
+                                  child: const Text(
+                                    'OK',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                  }
                 }),
             BasicFormButton(
               text: "Register",
@@ -78,7 +100,7 @@ class LoginDemo extends ConsumerWidget {
   }
 }
 
-Future<void> login(String email, String password, WidgetRef ref) async {
+Future<bool> login(String email, String password, WidgetRef ref) async {
   try {
     Response response = await post(Uri.parse('$url/auth/login'),
         headers: {"Content-Type": "application/json"},
@@ -90,10 +112,13 @@ Future<void> login(String email, String password, WidgetRef ref) async {
           .read(storageProvider.notifier)
           .state
           .write(key: 'jwt', value: token);
+      return true;
     } else {
       print('failed');
+      return false;
     }
   } catch (e) {
     print(e.toString());
+    return false;
   }
 }

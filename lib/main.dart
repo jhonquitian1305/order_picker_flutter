@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:order_picker/config/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:order_picker/presentation/screens/login_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:order_picker/presentation/screens/products_screen.dart';
 
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme().getTheme(),
-      home: const ProductsView(),
+      home: LoginScreen(),
     );
   }
 }
