@@ -57,29 +57,21 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Products list'),
-        ),
-        body: FutureBuilder(
-          future: listProducts,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView(
-                children: showListProducts(snapshot.data ?? []),
-              );
-            } else if (snapshot.hasError) {
-              return const Text("Error");
-            }
+    return FutureBuilder(
+      future: listProducts,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView(
+            children: showListProducts(snapshot.data ?? []),
+          );
+        } else if (snapshot.hasError) {
+          return const Text("Error");
+        }
 
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
-      ),
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 

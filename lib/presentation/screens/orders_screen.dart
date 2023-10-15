@@ -58,29 +58,21 @@ class _OrdersViewState extends State<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Orders List'),
-        ),
-        body: FutureBuilder(
-            future: listOrders,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView(
-                  children: showListOrders(snapshot.data ?? []),
-                );
-              } else if (snapshot.hasError) {
-                return const Text("Error");
-              }
+    return FutureBuilder(
+        future: listOrders,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              children: showListOrders(snapshot.data ?? []),
+            );
+          } else if (snapshot.hasError) {
+            return const Text("Error");
+          }
 
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-      ),
-    );
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
   }
 
   List<Widget> showListOrders(List<Order> data) {
