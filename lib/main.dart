@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme().getTheme(),
-      home: LoginScreen(),
+      home: LoginScreen(appTitle: "Order Picker"),
     );
   }
 }
