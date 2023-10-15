@@ -66,13 +66,7 @@ class _NewProductDemoState extends State<NewProductDemo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Button(
-                  child: const Text(
-                    'Create Product',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  child: const Text('Create Product'),
                   onPressed: () async {
                     if (!validNewProduct()) {
                       return;

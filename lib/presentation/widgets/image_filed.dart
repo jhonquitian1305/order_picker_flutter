@@ -66,7 +66,7 @@ class _ImageFieldState extends State<ImageField> {
                     ),
                   ),
           ),
-          Container(height: 35, color: Colors.transparent),
+          Container(height: 25, color: Colors.transparent),
         ]),
         Positioned(
           bottom: 0,
@@ -83,24 +83,22 @@ class _ImageFieldState extends State<ImageField> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Button(
+          expanded: false,
           onPressed: () {
             _getFromGallery();
           },
           child: const Icon(
             TablerIcons.photo_plus,
-            color: Colors.white,
-            size: 25,
           ),
         ),
         const SizedBox(width: 5),
         Button(
+          expanded: false,
           onPressed: () {
             _getFromCamera();
           },
           child: const Icon(
             TablerIcons.camera_plus,
-            color: Colors.white,
-            size: 25,
           ),
         ),
       ],
