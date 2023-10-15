@@ -33,7 +33,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: _selectedWidget ??
           Center(
             child: Text(
-                "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role}, jwt: ${loggedUser?.jwt}"),
+                "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role.value}, jwt: ${loggedUser?.jwt}"),
           ),
       drawer: Drawer(
         child: ListView(
@@ -66,7 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Navigator.pop(context);
               },
             ),
-            ref.watch(authProvider).loggedUser?.role == Role.admin
+            loggedUser?.role == Role.admin
                 ? ListTile(
                     title: const Text('Register employee'),
                     onTap: () {
