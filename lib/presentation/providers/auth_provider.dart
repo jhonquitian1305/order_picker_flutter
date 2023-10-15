@@ -41,7 +41,8 @@ class AuthNotifier extends StateNotifier<AuthProvider> {
             loggedUser: User(
                 id: decodedToken["id"],
                 name: decodedToken["sub"],
-                role: decodedToken["role"],
+                role: Role.values
+                    .firstWhere((role) => role.value == decodedToken["role"]),
                 jwt: token));
         return true;
       } else {

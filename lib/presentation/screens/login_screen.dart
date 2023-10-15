@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/home_screen.dart';
-import 'package:order_picker/presentation/screens/register_screen.dart';
+import 'package:order_picker/presentation/screens/register_user_screen.dart';
 
 import '../widgets/basic_form_button.dart';
 import '../widgets/basic_form_field.dart';
@@ -86,8 +86,8 @@ class LoginScreen extends ConsumerWidget {
                 }),
             BasicFormButton(
               text: "Register",
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RegisterScreen())),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => RegisterUserScreen())),
             ),
           ],
         ),

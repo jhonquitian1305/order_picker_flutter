@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/main.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
-import 'package:order_picker/presentation/screens/login_screen.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
+import 'package:order_picker/presentation/widgets/register_form.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key, required this.title});
@@ -16,26 +17,24 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _selectedIndex = 0;
-  static final List<Widget> _widgetOptions = <Widget>[
-    const OrdersView(),
-    const ProductsView(),
-    LoginScreen(
-      appTitle: "aa",
-    ),
-  ];
+  Widget? _selectedWidget;
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(Widget widgetTapped) {
     setState(() {
-      _selectedIndex = index;
+      _selectedWidget = widgetTapped;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    User? loggedUser = ref.watch(authProvider).loggedUser;
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: _widgetOptions[_selectedIndex],
+      body: _selectedWidget ??
+          Center(
+            child: Text(
+                "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role}, jwt: ${loggedUser?.jwt}"),
+          ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -51,27 +50,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             ListTile(
               title: const Text('Orders'),
-              selected: _selectedIndex == 0,
               onTap: () {
                 // Update the state of the app
-                _onItemTapped(0);
+                _onItemTapped(const OrdersView());
                 // Then close the drawer
                 Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Products'),
-              selected: _selectedIndex == 1,
               onTap: () {
                 // Update the state of the app
-                _onItemTapped(1);
+                _onItemTapped(const ProductsView());
                 // Then close the drawer
                 Navigator.pop(context);
               },
             ),
+            ref.watch(authProvider).loggedUser?.role == Role.admin
+                ? ListTile(
+                    title: const Text('Register employee'),
+                    onTap: () {
+                      // Update the state of the app
+                      _onItemTapped(RegisterForm(userRole: Role.employee));
+                      // Then close the drawer
+                      Navigator.pop(context);
+                    },
+                  )
+                : const SizedBox.shrink(),
             ListTile(
               title: const Text('Log Out'),
-              selected: _selectedIndex == 2,
               onTap: () {
                 ref.read(authProvider.notifier).logout();
                 Navigator.pushAndRemoveUntil(

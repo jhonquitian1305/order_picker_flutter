@@ -13,7 +13,6 @@ Future<String> uploadImage(File image) async {
     print('oh no! algo falló');
   }
   print("parece que funcó");
+
   return await imageRef.getDownloadURL();
 }
-
-
