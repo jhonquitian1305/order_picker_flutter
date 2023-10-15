@@ -8,9 +8,9 @@ class Product {
   Product({
     required this.id,
     required this.name,
-    required this.imageUrl,
     required this.price,
     required this.amount,
+    this.imageUrl,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -26,5 +26,19 @@ class Product {
   @override
   String toString() {
     return 'Product { id: $id, name: $name, imageUrl: $imageUrl, price: $price, amount: $amount}';
+  }
+}
+
+class ProductDTO {
+  String name;
+  int amount;
+
+  ProductDTO(this.name, this.amount);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'amount': amount,
+    };
   }
 }

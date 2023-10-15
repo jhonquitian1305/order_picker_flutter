@@ -1,15 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
+import 'package:order_picker/infrastructure/constants/url_string.dart';
+import 'package:order_picker/presentation/providers/secure_storage_provider.dart';
+import 'package:order_picker/presentation/screens/default_screen.dart';
+import 'package:order_picker/presentation/screens/orders_screen.dart';
 
-class LoginDemo extends StatefulWidget {
-  const LoginDemo({super.key});
+import '../widgets/basic_form_button.dart';
+import '../widgets/basic_form_field.dart';
 
+class LoginDemo extends ConsumerWidget {
+  LoginDemo({super.key});
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
-  _LoginDemoState createState() => _LoginDemoState();
-}
-
-class _LoginDemoState extends State<LoginDemo> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,65 +35,65 @@ class _LoginDemoState extends State<LoginDemo> {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Username',
-                    hintText: 'Enter valid username'),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: BasicFormField(
+                textController: emailController,
+                labelText: "Username",
+                hintText: "Enter your username.",
               ),
             ),
-            const Padding(
-              padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
+              child: BasicFormField(
+                textController: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter password'),
+                labelText: "Password",
+                hintText: "Enter your password.",
               ),
             ),
-            SizedBox(
-              height: 65,
-              width: 360,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: ElevatedButton(
-                  style: Theme.of(context).textButtonTheme.style,
-                  child: const Text(
-                    'Log in ',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    print('Successfully log in ');
-                  },
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 65,
-              width: 360,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: ElevatedButton(
-                  style: Theme.of(context).textButtonTheme.style,
-                  child: const Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    print('Register');
-                  },
-                ),
-              ),
+            BasicFormButton(
+                text: "Log In",
+                onPressed: () async {
+                  await login(
+                      emailController.text, passwordController.text, ref);
+                  print(await ref
+                      .watch(storageProvider.notifier)
+                      .state
+                      .read(key: "jwt"));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => OrdersView()));
+                }),
+            BasicFormButton(
+              text: "Register",
+              onPressed: () => print("register"),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+Future<void> login(String email, String password, WidgetRef ref) async {
+  try {
+    Response response = await post(Uri.parse('$url/auth/login'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({'email': email, 'password': password}));
+    if (response.statusCode == 200) {
+      print("success");
+      var token = jsonDecode(response.body.toString())['token'];
+      await ref
+          .read(storageProvider.notifier)
+          .state
+          .write(key: 'jwt', value: token);
+    } else {
+      print('failed');
+    }
+  } catch (e) {
+    print(e.toString());
   }
 }

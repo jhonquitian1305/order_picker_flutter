@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:order_picker/config/theme/app_theme.dart';
-import 'package:order_picker/presentation/screens/create_product_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:order_picker/presentation/screens/products_screen.dart';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme().getTheme(),
-      home: const NewProductDemo(),
-      debugShowCheckedModeBanner: false,
+      home: const ProductsView(),
     );
   }
 }
