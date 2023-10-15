@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
+import 'package:order_picker/presentation/screens/register_screen.dart';
 
 import '../widgets/basic_form_button.dart';
 import '../widgets/basic_form_field.dart';
@@ -35,8 +36,8 @@ class LoginScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: BasicFormField(
                 textController: emailController,
-                labelText: "Username",
-                hintText: "Enter your username.",
+                labelText: "Email",
+                hintText: "Enter your email.",
               ),
             ),
             Padding(
@@ -64,8 +65,9 @@ class LoginScreen extends ConsumerWidget {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Error'),
-                              content:
-                                  const Text('Usuario o contraseña incorrecto'),
+                              content: const Text(
+                                'El usuario o contraseña son incorrectos',
+                              ),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -82,7 +84,8 @@ class LoginScreen extends ConsumerWidget {
                 }),
             BasicFormButton(
               text: "Register",
-              onPressed: () => print("register"),
+              onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => RegisterScreen())),
             ),
           ],
         ),
