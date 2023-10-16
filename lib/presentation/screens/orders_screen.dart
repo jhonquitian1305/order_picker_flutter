@@ -1,31 +1,37 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:order_picker/domain/entities/order.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
+import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() => runApp(const OrdersView());
 
-class OrdersView extends StatefulWidget {
+class OrdersView extends ConsumerStatefulWidget {
   const OrdersView({super.key});
 
   @override
-  State<OrdersView> createState() => _OrdersViewState();
+  ConsumerState<OrdersView> createState() => _OrdersViewState();
 }
 
-class _OrdersViewState extends State<OrdersView> {
+class _OrdersViewState extends ConsumerState<OrdersView> {
   late Future<List<Order>> listOrders;
 
-  Future<List<Order>> getOrders() async {
-    final response = await http.get(
-      Uri.parse("$url/orders/user/1"),
-    );
-
+  Future<List<Order>> getOrders(User user) async {
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': "Bearer ${user.jwt}"
+    };
+    final response = await http.get(Uri.parse("$url/orders/user/${user.id}"),
+        headers: requestHeaders);
     List<Order> orders = [];
 
     if (response.statusCode == 200) {
@@ -49,8 +55,9 @@ class _OrdersViewState extends State<OrdersView> {
 
   @override
   void initState() {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     super.initState();
-    listOrders = getOrders();
+    listOrders = getOrders(loggedUser!);
     print("Hola");
   }
 
@@ -76,8 +83,10 @@ class _OrdersViewState extends State<OrdersView> {
   }
 
   List<Widget> showListOrders(List<Order> data) {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     List<Widget> orders = [];
-
+    print(
+        "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role.value}, jwt: ${loggedUser?.jwt}");
     for (var order in data) {
       String isDelivered = order.isDelivered ? "Delivered" : "Pending";
       DateTime date = DateTime.parse(order.createAt);

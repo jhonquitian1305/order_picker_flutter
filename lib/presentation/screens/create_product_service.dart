@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:order_picker/domain/entities/create_product_dto.dart';
 import 'package:order_picker/domain/entities/new_product.dart';
 import 'package:order_picker/domain/entities/product.dart';
+import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/screens/image_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +17,7 @@ Future<Product> createProduct(NewProduct newProduct) async {
     price: newProduct.price ?? 0,
     amount: newProduct.amount ?? 0,
   );
-  final uri = Uri.parse('http://192.168.0.107:8080/api/order-picker/products');
+  final uri = Uri.parse('http://$url:8080/api/order-picker/products');
   final response = await http.post(
     uri,
     body: jsonEncode(productDto),
