@@ -17,7 +17,7 @@ Future<Product> createProduct(NewProduct newProduct) async {
     price: newProduct.price ?? 0,
     amount: newProduct.amount ?? 0,
   );
-  final uri = Uri.parse('http://$url:8080/api/order-picker/products');
+  final uri = Uri.parse('$url/products');
   final response = await http.post(
     uri,
     body: jsonEncode(productDto),
