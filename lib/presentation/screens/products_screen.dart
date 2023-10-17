@@ -9,6 +9,7 @@ import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
+import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
 
 void main() => runApp(const ProductsView());
 
@@ -182,21 +183,27 @@ class _ProductsViewState extends State<ProductsView> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Bienvenido"),
-        content: const Text("Hola"),
+        title: const Text("Choose amount"),
+        content: Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            const Text("How many items of"),
+            Text(
+              ' ${product.name}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const Text("do you want?"),
+          ],
+        ),
         actions: [
-          TextField(
+          RoundedTextField(
             controller: amountProduct,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'amount',
-              hintText: "Enter amount of product.",
-            ),
+            labelText: 'amount',
+            hintText: "Enter amount of product.",
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.amber,
-            ),
+          const SizedBox(height: 10),
+          Button(
             onPressed: () {
               String amountText = amountProduct.text;
               int amount = int.tryParse(amountText) ?? 0;

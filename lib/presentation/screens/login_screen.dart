@@ -37,13 +37,13 @@ class LoginScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 10),
             RoundedTextField(
-              textController: emailController,
+              controller: emailController,
               labelText: "Email",
               hintText: "Enter your email.",
             ),
             const SizedBox(height: 10),
             RoundedTextField(
-              textController: passwordController,
+              controller: passwordController,
               obscureText: true,
               labelText: "Password",
               hintText: "Enter your password.",
