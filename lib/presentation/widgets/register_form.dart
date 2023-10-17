@@ -1,13 +1,16 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
-import 'package:order_picker/presentation/widgets/basic_form_button.dart';
-import 'package:order_picker/presentation/widgets/basic_form_field.dart';
+import 'package:order_picker/presentation/widgets/button.dart';
+import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
+import 'package:tabler_icons/tabler_icons.dart';
 
 class RegisterForm extends StatelessWidget {
   RegisterForm({super.key, required this.userRole});
+
   final Role userRole;
   final TextEditingController dniController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
@@ -18,10 +21,12 @@ class RegisterForm extends StatelessWidget {
   final TextEditingController phoneController = TextEditingController();
 
   final TextEditingController roleController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
             const Padding(
@@ -33,63 +38,46 @@ class RegisterForm extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: BasicFormField(
-                textController: dniController,
-                labelText: "DNI",
-                hintText: "Enter your DNI.",
-              ),
+            const SizedBox(height: 10),
+            RoundedTextField(
+              textController: dniController,
+              labelText: "DNI",
+              hintText: "Enter your DNI.",
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: BasicFormField(
-                textController: fullNameController,
-                labelText: "Full name",
-                hintText: "Enter your full name.",
-              ),
+            const SizedBox(height: 10),
+            RoundedTextField(
+              textController: fullNameController,
+              labelText: "Full name",
+              hintText: "Enter your full name.",
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: BasicFormField(
-                textController: emailController,
-                labelText: "Email",
-                hintText: "Enter your email.",
-              ),
+            const SizedBox(height: 10),
+            RoundedTextField(
+              textController: emailController,
+              labelText: "Email",
+              hintText: "Enter your email.",
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: BasicFormField(
-                textController: passwordController,
-                obscureText: true,
-                labelText: "Password",
-                hintText: "Enter your password.",
-              ),
+            const SizedBox(height: 10),
+            RoundedTextField(
+              textController: passwordController,
+              obscureText: true,
+              labelText: "Password",
+              hintText: "Enter your password.",
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: BasicFormField(
-                textController: addressController,
-                labelText: "Address",
-                hintText: "Enter your address.",
-              ),
+            const SizedBox(height: 10),
+            RoundedTextField(
+              textController: addressController,
+              labelText: "Address",
+              hintText: "Enter your address.",
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: BasicFormField(
-                textController: phoneController,
-                labelText: "Phone",
-                hintText: "Enter your phone number.",
-              ),
+            const SizedBox(height: 10),
+            RoundedTextField(
+              textController: phoneController,
+              labelText: "Phone",
+              hintText: "Enter your phone number.",
             ),
-            BasicFormButton(
-                text: "Register",
+            const SizedBox(height: 10),
+            Button(
+                child: const Text("Register"),
                 onPressed: () async {
                   bool logged = await register(
                       dni: dniController.text,
@@ -102,9 +90,25 @@ class RegisterForm extends StatelessWidget {
                   if (context.mounted) {
                     logged
                         ? customAlertDialog(
-                            context, "", "Te has registrado exitosamente.")
-                        : customAlertDialog(context, "Error",
-                            "Revisa que hayas ingresado todos los campos correctamente.");
+                            context: context,
+                            title: "Success",
+                            content: "You have been registered successfully.",
+                            icon: const Icon(
+                              TablerIcons.user_check,
+                              size: 50,
+                              color: Color.fromRGBO(180, 180, 180, 1.0),
+                            ),
+                          )
+                        : customAlertDialog(
+                            context: context,
+                            title: "Error",
+                            content: "Check your data and try again.",
+                            icon: const Icon(
+                              TablerIcons.user_x,
+                              size: 50,
+                              color: Color.fromRGBO(180, 180, 180, 1.0),
+                            ),
+                          );
                   }
                 }),
           ],
@@ -142,21 +146,27 @@ Future<bool> register({
 }
 
 Future<String?> customAlertDialog(
-    BuildContext context, String title, String content) {
+    {required BuildContext context,
+    required String title,
+    required String content,
+    Icon? icon}) {
   return showDialog<String>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
       title: Text(title),
-      content: Text(
-        content,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          icon!,
+          Text(
+            content,
+          ),
+        ],
       ),
       actions: <Widget>[
-        TextButton(
+        Button(
           onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text(
-            'OK',
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
+          child: const Text('OK'),
         ),
       ],
     ),

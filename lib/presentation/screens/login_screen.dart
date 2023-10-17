@@ -5,6 +5,7 @@ import 'package:order_picker/presentation/screens/home_screen.dart';
 import 'package:order_picker/presentation/screens/register_user_screen.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
 import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
+import 'package:tabler_icons/tabler_icons.dart';
 
 class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key, required this.appTitle});
@@ -21,7 +22,8 @@ class LoginScreen extends ConsumerWidget {
         title: Text(appTitle),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, MediaQuery.sizeOf(context).height * 0.15 , 16, 0),
+        padding: EdgeInsets.fromLTRB(
+            16, MediaQuery.sizeOf(context).height * 0.15, 16, 0),
         child: Column(
           children: <Widget>[
             const Padding(
@@ -93,16 +95,21 @@ class LoginScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Error'),
-        content: const Text(
-          'El usuario o contraseña son incorrectos',
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              TablerIcons.user_x,
+              size: 50,
+              color: Color.fromRGBO(180, 180, 180, 1.0),
+            ),
+            Text('Wrong email or password.'),
+          ],
         ),
         actions: <Widget>[
-          TextButton(
+          Button(
             onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text(
-              'OK',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
+            child: const Text('OK'),
           ),
         ],
       ),
