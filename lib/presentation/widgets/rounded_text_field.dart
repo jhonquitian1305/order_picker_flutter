@@ -5,13 +5,17 @@ class RoundedTextField extends StatelessWidget {
   final String hintText;
   final TextInputType keyboardType;
   final void Function(String)? onChanged;
+  final TextEditingController? textController;
+  final bool obscureText;
 
   const RoundedTextField({
     super.key,
     required this.hintText,
     required this.labelText,
-    required this.onChanged,
+    this.onChanged,
     this.keyboardType = TextInputType.text,
+    this.textController,
+    this.obscureText = false,
   });
 
   @override
@@ -19,6 +23,10 @@ class RoundedTextField extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 50),
       child: TextField(
+        keyboardType: keyboardType,
+        onChanged: onChanged,
+        controller: textController,
+        obscureText: obscureText,
         decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -35,9 +43,9 @@ class RoundedTextField extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(100)),
             ),
             labelText: labelText,
-            hintText: hintText),
-        keyboardType: keyboardType,
-        onChanged: onChanged,
+          hintText: hintText,
+        ),
+
       ),
     );
   }

@@ -83,7 +83,6 @@ class _ImageFieldState extends State<ImageField> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Button(
-          expanded: false,
           onPressed: () {
             _getFromGallery();
           },
@@ -93,7 +92,6 @@ class _ImageFieldState extends State<ImageField> {
         ),
         const SizedBox(width: 5),
         Button(
-          expanded: false,
           onPressed: () {
             _getFromCamera();
           },
