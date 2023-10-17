@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/main.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
+import 'package:order_picker/presentation/screens/create_product_screen.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
 import 'package:order_picker/presentation/widgets/register_form.dart';
@@ -30,11 +31,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     User? loggedUser = ref.watch(authProvider).loggedUser;
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: _selectedWidget ??
-          Center(
-            child: Text(
-                "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role.value}, jwt: ${loggedUser?.jwt}"),
-          ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: _selectedWidget ??
+            Center(
+              child: Text(
+                  "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role.value}, jwt: ${loggedUser?.jwt}"),
+            ),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -72,6 +76,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onTap: () {
                       // Update the state of the app
                       _onItemTapped(RegisterForm(userRole: Role.employee));
+                      // Then close the drawer
+                      Navigator.pop(context);
+                    },
+                  )
+                : const SizedBox.shrink(),
+            loggedUser?.role == Role.admin
+                ? ListTile(
+                    title: const Text('New Product'),
+                    onTap: () {
+                      // Update the state of the app
+                      _onItemTapped(const NewProductDemo());
                       // Then close the drawer
                       Navigator.pop(context);
                     },
