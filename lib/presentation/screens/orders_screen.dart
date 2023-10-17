@@ -9,6 +9,7 @@ import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/products_screen.dart';
+import 'package:order_picker/presentation/widgets/button.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -65,12 +66,27 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
+    _createNewOrder() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ProductsView(),
+        ),
+      );
+    }
+
     return FutureBuilder(
         future: listOrders,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView(
-              children: showListOrders(snapshot.data ?? []),
+              children: [
+                ...showListOrders(snapshot.data ?? []),
+                Button(
+                  onPressed: _createNewOrder,
+                  child: const Text("New Order"),
+                ),
+              ],
             );
           } else if (snapshot.hasError) {
             return const Text("Error");
@@ -83,10 +99,8 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
   }
 
   List<Widget> showListOrders(List<Order> data) {
-    User? loggedUser = ref.read(authProvider).loggedUser;
     List<Widget> orders = [];
-    print(
-        "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role.value}, jwt: ${loggedUser?.jwt}");
+
     for (var order in data) {
       String isDelivered = order.isDelivered ? "Delivered" : "Pending";
       DateTime date = DateTime.parse(order.createAt);
@@ -102,115 +116,61 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
           order.isDelivered ? const Color(0xFF07924F) : const Color(0xFFDF1010);
       orders.add(
         Card(
+          margin: const EdgeInsets.only(bottom: 12),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(15),
+            side: const BorderSide(color: Color(0xff555555)),
           ),
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Color(0xff555555)),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                alignment: Alignment.topLeft,
-              ),
-              onPressed: null,
-              onLongPress: () {
-                print("hola");
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Stack(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 380,
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Text(
-                          "Order N° ${order.id}",
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
+                    Text(
+                      "Order N° ${order.id}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
-                    Positioned(
-                      top: 45,
-                      child: Text(
-                        relativeDate,
-                        style: const TextStyle(
-                          color: Color(0xFF555555),
-                          fontWeight: FontWeight.w300,
-                        ),
+                    const SizedBox(height: 5),
+                    Text(
+                      relativeDate,
+                      style: const TextStyle(
+                        color: Color(0xFF555555),
+                        fontWeight: FontWeight.w300,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
-                    Positioned(
-                      top: 60,
-                      child: Text(
-                        "\$ ${order.totalPrice}",
-                        textAlign: TextAlign.end,
-                        style: const TextStyle(
-                          color: Color(0xFF555555),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 40,
-                      right: 20,
-                      child: Text(
-                        isDelivered,
-                        style: TextStyle(
-                          color: colorDelivered,
-                          fontSize: 15,
-                        ),
+                    Text(
+                      "\$ ${order.totalPrice}",
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ],
                 ),
-              )),
-        ),
-      );
-    }
-
-    orders.add(
-      buttonNewOrder(),
-    );
-
-    return orders;
-  }
-
-  Widget buttonNewOrder() {
-    createNewOrder() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const ProductsView(),
-        ),
-      );
-    }
-
-    return Column(
-      children: [
-        Center(
-          child: Column(
-            children: [
-              ButtonCard(
-                context: context,
-                text: "New Order",
-                onPressed: createNewOrder,
-              ),
-            ],
+                Text(
+                  isDelivered,
+                  style: TextStyle(
+                    color: colorDelivered,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ],
-    );
+      );
+    }
+    return orders;
   }
 }

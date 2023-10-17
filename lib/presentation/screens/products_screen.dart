@@ -7,7 +7,9 @@ import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
+import 'package:order_picker/presentation/widgets/button.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
+import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
 
 void main() => runApp(const ProductsView());
 
@@ -77,52 +79,41 @@ class _ProductsViewState extends State<ProductsView> {
 
   List<Widget> showListProducts(List<Product> data) {
     List<Widget> products = [];
-
     for (var product in data) {
       products.add(
         Card(
+          margin: const EdgeInsets.only(bottom: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: const BorderSide(color: Color(0xff555555)),
           ),
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           color: Colors.white,
-          child: Stack(
-            children: [
-              SizedBox(
-                width: 380,
-                height: 80,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12, left: 10),
-                  child: Text(
-                    product.name.toUpperCase(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 45,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    '\$ ${product.price}',
-                    style: const TextStyle(fontWeight: FontWeight.w300),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 20,
-                right: 10,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: const CircleBorder(
-                      side: BorderSide(color: Color(0xff555555)),
+                    const SizedBox(height: 5),
+                    Text(
+                      'Price: \$ ${product.price}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(85, 85, 85, 1.0),
+                      ),
                     ),
-                  ),
+                  ],
+                ),
+                Button(
                   onPressed: () {
                     chooseAmount(context, product);
                   },
@@ -134,8 +125,8 @@ class _ProductsViewState extends State<ProductsView> {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -176,10 +167,9 @@ class _ProductsViewState extends State<ProductsView> {
         Center(
           child: Column(
             children: [
-              ButtonCard(
-                context: context,
-                text: "Finish Order",
+              Button(
                 onPressed: finishOrder,
+                child: const Text("Finish Order"),
               ),
             ],
           ),
@@ -193,21 +183,27 @@ class _ProductsViewState extends State<ProductsView> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Bienvenido"),
-        content: const Text("Hola"),
+        title: const Text("Choose amount"),
+        content: Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            const Text("How many items of"),
+            Text(
+              ' ${product.name}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const Text("do you want?"),
+          ],
+        ),
         actions: [
-          TextField(
+          RoundedTextField(
             controller: amountProduct,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'amount',
-              hintText: "Enter amount of product.",
-            ),
+            labelText: 'amount',
+            hintText: "Enter amount of product.",
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.amber,
-            ),
+          const SizedBox(height: 10),
+          Button(
             onPressed: () {
               String amountText = amountProduct.text;
               int amount = int.tryParse(amountText) ?? 0;
