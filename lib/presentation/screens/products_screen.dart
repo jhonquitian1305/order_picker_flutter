@@ -1,34 +1,39 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
+import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
+import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
-import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
 
 void main() => runApp(const ProductsView());
 
-class ProductsView extends StatefulWidget {
+class ProductsView extends ConsumerStatefulWidget {
   const ProductsView({super.key});
 
   @override
-  State<ProductsView> createState() => _ProductsViewState();
+  ConsumerState<ProductsView> createState() => _ProductsViewState();
 }
 
-class _ProductsViewState extends State<ProductsView> {
+class _ProductsViewState extends ConsumerState<ProductsView> {
   late Future<List<Product>> listProducts;
 
   List<ProductDTO> listProductsChose = [];
 
-  Future<List<Product>> getProducts() async {
-    final response = await http.get(
-      Uri.parse("$url/products"),
-    );
+  Future<List<Product>> getProducts(User user) async {
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': "Bearer ${user.jwt}"
+    };
+    final response =
+        await http.get(Uri.parse("$url/products"), headers: requestHeaders);
 
     List<Product> products = [];
 
@@ -53,8 +58,9 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   void initState() {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     super.initState();
-    listProducts = getProducts();
+    listProducts = getProducts(loggedUser!);
   }
 
   @override
@@ -63,8 +69,14 @@ class _ProductsViewState extends State<ProductsView> {
       future: listProducts,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ListView(
-            children: showListProducts(snapshot.data ?? []),
+          return Container(
+            color: Colors.white,
+            child: ListView(
+              children: [
+                ...showListProducts(snapshot.data ?? []),
+                buttonFinishOrder()
+              ],
+            ),
           );
         } else if (snapshot.hasError) {
           return const Text("Error");
@@ -132,13 +144,17 @@ class _ProductsViewState extends State<ProductsView> {
       );
     }
 
-    products.add(buttonFinishOrder());
-
     return products;
   }
 
   Widget buttonFinishOrder() {
     finishOrder() async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OrdersView(),
+        ),
+      );
       for (var product in listProductsChose) {
         print("${product.name} ${product.amount}");
       }
@@ -154,12 +170,6 @@ class _ProductsViewState extends State<ProductsView> {
         print(e.toString());
         print("Jeison te amo");
       }
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const OrdersView(),
-        ),
-      );
     }
 
     return Column(
