@@ -23,6 +23,14 @@ class OrdersView extends ConsumerStatefulWidget {
 }
 
 class _OrdersViewState extends ConsumerState<OrdersView> {
+  Widget? _selectedWidget;
+
+  void _onItemTapped(Widget widgetTapped) {
+    setState(() {
+      _selectedWidget = widgetTapped;
+    });
+  }
+
   late Future<List<Order>> listOrders;
 
   Future<List<Order>> getOrders(User user) async {
@@ -136,9 +144,13 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
           color: Colors.white,
           child: InkWell(
             onTap: () {
+              List<Role> rolesAdmin = [];
+              rolesAdmin.add(Role.admin);
+              rolesAdmin.add(Role.employee);
               IdDetailOrder idDetailOrder = IdDetailOrder(0, 0);
               idDetailOrder.orderId = order.id;
-              if (loggedUser!.role == Role.admin) {
+
+              if (rolesAdmin.contains(loggedUser!.role)) {
                 idDetailOrder.userId = order.userId;
               } else {
                 idDetailOrder.userId = loggedUser.id;
