@@ -8,9 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
-import 'package:order_picker/presentation/screens/products_screen.dart';
+import 'package:order_picker/presentation/screens/new_order_screen.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
-import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() => runApp(const OrdersView());
@@ -70,7 +69,7 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const ProductsView(),
+          builder: (context) => const NewOrderScreen(),
         ),
       );
     }

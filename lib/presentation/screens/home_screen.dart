@@ -5,7 +5,7 @@ import 'package:order_picker/main.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/create_product_screen.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
-import 'package:order_picker/presentation/screens/products_screen.dart';
+import 'package:order_picker/presentation/widgets/product_list.dart';
 import 'package:order_picker/presentation/widgets/register_form.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -65,7 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               title: const Text('Products'),
               onTap: () {
                 // Update the state of the app
-                _onItemTapped(const ProductsView());
+                _onItemTapped(const ProductList());
                 // Then close the drawer
                 Navigator.pop(context);
               },
