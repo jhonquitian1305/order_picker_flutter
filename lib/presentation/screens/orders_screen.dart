@@ -8,9 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
-import 'package:order_picker/presentation/screens/products_screen.dart';
+import 'package:order_picker/presentation/screens/new_order_screen.dart';
+import 'package:order_picker/presentation/screens/order_detail_screen.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
-import 'package:order_picker/presentation/widgets/button_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() => runApp(const OrdersView());
@@ -31,8 +31,18 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
       'Accept': 'application/json',
       'Authorization': "Bearer ${user.jwt}"
     };
-    final response = await http.get(Uri.parse("$url/orders/user/${user.id}"),
-        headers: requestHeaders);
+    List<Role> rolesAdmin = [];
+    rolesAdmin.add(Role.admin);
+    rolesAdmin.add(Role.employee);
+
+    final http.Response response;
+    if (rolesAdmin.contains(user.role)) {
+      response = await http.get(Uri.parse("$url/orders?pageSize=20"),
+          headers: requestHeaders);
+    } else {
+      response = await http.get(Uri.parse("$url/orders/user/${user.id}"),
+          headers: requestHeaders);
+    }
     List<Order> orders = [];
 
     if (response.statusCode == 200) {
@@ -42,6 +52,7 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
         orders.add(
           Order(
             order["id"],
+            order["userId"],
             order["totalPrice"],
             order["isDelivered"],
             order["createdAt"],
@@ -59,18 +70,18 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
     User? loggedUser = ref.read(authProvider).loggedUser;
     super.initState();
     listOrders = getOrders(loggedUser!);
-    print("Hola");
   }
 
   constructor() {}
 
   @override
   Widget build(BuildContext context) {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     _createNewOrder() {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const ProductsView(),
+          builder: (context) => const NewOrderScreen(),
         ),
       );
     }
@@ -99,6 +110,7 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
   }
 
   List<Widget> showListOrders(List<Order> data) {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     List<Widget> orders = [];
 
     for (var order in data) {
@@ -122,50 +134,69 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
             side: const BorderSide(color: Color(0xff555555)),
           ),
           color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Order N° ${order.id}",
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      relativeDate,
-                      style: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontWeight: FontWeight.w300,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    Text(
-                      "\$ ${order.totalPrice}",
-                      textAlign: TextAlign.end,
-                      style: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  isDelivered,
-                  style: TextStyle(
-                    color: colorDelivered,
-                    fontSize: 15,
+          child: InkWell(
+            onTap: () {
+              IdDetailOrder idDetailOrder = IdDetailOrder(0, 0);
+              idDetailOrder.orderId = order.id;
+              if (loggedUser!.role == Role.admin) {
+                idDetailOrder.userId = order.userId;
+              } else {
+                idDetailOrder.userId = loggedUser.id;
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OrderDetailView(
+                    idDetailOrder: idDetailOrder,
                   ),
                 ),
-              ],
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Order N° ${order.id}",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        relativeDate,
+                        style: const TextStyle(
+                          color: Color(0xFF555555),
+                          fontWeight: FontWeight.w300,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      Text(
+                        "\$ ${order.totalPrice}",
+                        textAlign: TextAlign.end,
+                        style: const TextStyle(
+                          color: Color(0xFF555555),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    isDelivered,
+                    style: TextStyle(
+                      color: colorDelivered,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
