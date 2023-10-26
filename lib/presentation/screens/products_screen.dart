@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
+import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
 import 'package:order_picker/presentation/widgets/button_card.dart';
@@ -13,25 +16,30 @@ import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
 
 void main() => runApp(const ProductsView());
 
-class ProductsView extends StatefulWidget {
+class ProductsView extends ConsumerStatefulWidget {
   const ProductsView({super.key});
 
   @override
-  State<ProductsView> createState() => _ProductsViewState();
+  ConsumerState createState() => ProductsViewState();
 }
 
-class _ProductsViewState extends State<ProductsView> {
+class ProductsViewState extends ConsumerState<ProductsView> {
   late Future<List<Product>> listProducts;
 
   List<ProductDTO> listProductsChose = [];
 
   Future<List<Product>> getProducts() async {
     final response = await http.get(
+      headers: {
+        HttpHeaders.authorizationHeader:
+            'Bearer ${ref.read(authProvider).loggedUser?.jwt}'
+      },
       Uri.parse("$url/products"),
     );
 
     List<Product> products = [];
-
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
