@@ -144,22 +144,32 @@ class ProductsViewState extends ConsumerState<ProductList> {
 
   Widget buttonFinishOrder() {
     finishOrder() async {
-      for (var product in listProductsChose) {
-        print("${product.name} ${product.amount}");
+      if (listProductsChose.isEmpty) {
+        const snackBar = SnackBar(
+            duration: Duration(seconds: 5),
+            content: Text(
+              'First you must choose a product, click on the cart to add a product',
+              style: TextStyle(fontSize: 25),
+            ));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        for (var product in listProductsChose) {
+          print("${product.name} ${product.amount}");
+        }
+        try {
+          Navigator.pop(context);
+          Response response = await post(Uri.parse("$url/orders/user/1"),
+              headers: {"Content-Type": "application/json"},
+              body: jsonEncode({
+                "products": listProductsChose,
+              }));
+          print(response.statusCode);
+          listProductsChose = [];
+        } catch (e) {
+          print(e.toString());
+          print("Jeison te amo");
+        }
       }
-      try {
-        Response response = await post(Uri.parse("$url/orders/user/1"),
-            headers: {"Content-Type": "application/json"},
-            body: jsonEncode({
-              "products": listProductsChose,
-            }));
-        print(response.statusCode);
-        listProductsChose = [];
-      } catch (e) {
-        print(e.toString());
-        print("Jeison te amo");
-      }
-      Navigator.pop(context);
     }
 
     return Column(
@@ -207,13 +217,25 @@ class ProductsViewState extends ConsumerState<ProductList> {
             onPressed: () {
               String amountText = amountProduct.text;
               int amount = int.tryParse(amountText) ?? 0;
-
-              ProductDTO productChose = ProductDTO(
-                product.name.toString(),
-                amount,
-              );
-              listProductsChose.add(productChose);
-              amountProduct.clear();
+              if (amount <= 0) {
+                const snackBar = SnackBar(
+                    duration: Duration(seconds: 2),
+                    content: Text(
+                      'Amount incorrect, must be greater than 0',
+                      style: TextStyle(fontSize: 25),
+                    ));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              } else {
+                setState(() {
+                  ProductDTO productChose = ProductDTO(
+                    product.name.toString(),
+                    amount,
+                  );
+                  listProductsChose.add(productChose);
+                });
+                amountProduct.clear();
+                Navigator.pop(context);
+              }
             },
             child: const Text(
               "Aceptar",
