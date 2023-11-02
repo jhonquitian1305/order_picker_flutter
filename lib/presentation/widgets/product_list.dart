@@ -86,6 +86,7 @@ class ProductsViewState extends ConsumerState<ProductList> {
   }
 
   List<Widget> showListProducts(List<Product> data) {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     List<Widget> products = [];
     for (var product in data) {
       products.add(
@@ -121,18 +122,39 @@ class ProductsViewState extends ConsumerState<ProductList> {
                     ),
                   ],
                 ),
-                Button(
-                  onPressed: () {
-                    chooseAmount(context, product);
-                  },
-                  child: const ColorFiltered(
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    child: Icon(
-                      Icons.add_shopping_cart_rounded,
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 60,
+                      child: Visibility(
+                        visible: loggedUser!.role == Role.user ? true : false,
+                        child: Button(
+                          onPressed: () {
+                            chooseAmount(context, product);
+                          },
+                          child: const ColorFiltered(
+                            colorFilter:
+                                ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            child: Icon(
+                              Icons.add_shopping_cart_rounded,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                    Visibility(
+                      visible: loggedUser.role != Role.user ? true : false,
+                      child: Positioned(
+                          top: 23,
+                          left: 15,
+                          child: Text(
+                            "Stock: ${product.amount}",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -146,6 +168,7 @@ class ProductsViewState extends ConsumerState<ProductList> {
   }
 
   Widget buttonFinishOrder() {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     finishOrder() async {
       if (listProductsChose.isEmpty) {
         const snackBar = SnackBar(
@@ -156,7 +179,6 @@ class ProductsViewState extends ConsumerState<ProductList> {
             ));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
-        User? loggedUser = ref.read(authProvider).loggedUser;
         for (var product in listProductsChose) {
           print("${product.name} ${product.amount}");
         }
@@ -193,9 +215,12 @@ class ProductsViewState extends ConsumerState<ProductList> {
         Center(
           child: Column(
             children: [
-              Button(
-                onPressed: finishOrder,
-                child: const Text("Finish Order"),
+              Visibility(
+                visible: loggedUser!.role == Role.user ? true : false,
+                child: Button(
+                  onPressed: finishOrder,
+                  child: const Text("Finish Order"),
+                ),
               ),
             ],
           ),
