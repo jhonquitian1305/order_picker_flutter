@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
+import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
@@ -153,18 +156,31 @@ class ProductsViewState extends ConsumerState<ProductList> {
             ));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
+        User? loggedUser = ref.read(authProvider).loggedUser;
         for (var product in listProductsChose) {
           print("${product.name} ${product.amount}");
         }
         try {
           Navigator.pop(context);
-          Response response = await post(Uri.parse("$url/orders/user/1"),
-              headers: {"Content-Type": "application/json"},
+          Response response = await post(
+              Uri.parse("$url/orders/user/${loggedUser!.id}"),
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${loggedUser.jwt}"
+              },
               body: jsonEncode({
                 "products": listProductsChose,
               }));
           print(response.statusCode);
           listProductsChose = [];
+          final jsonData = jsonDecode(response.body);
+          final snackBar = SnackBar(
+              duration: const Duration(seconds: 5),
+              content: Text(
+                'Order with id ${jsonData["id"]} was created successfully',
+                style: const TextStyle(fontSize: 25),
+              ));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } catch (e) {
           print(e.toString());
           print("Jeison te amo");
@@ -238,7 +254,7 @@ class ProductsViewState extends ConsumerState<ProductList> {
               }
             },
             child: const Text(
-              "Aceptar",
+              "OK",
             ),
           ),
         ],
