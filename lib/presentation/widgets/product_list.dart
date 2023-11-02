@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:order_picker/domain/entities/product.dart';
+import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/orders_screen.dart';
@@ -83,6 +86,7 @@ class ProductsViewState extends ConsumerState<ProductList> {
   }
 
   List<Widget> showListProducts(List<Product> data) {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     List<Widget> products = [];
     for (var product in data) {
       products.add(
@@ -118,18 +122,39 @@ class ProductsViewState extends ConsumerState<ProductList> {
                     ),
                   ],
                 ),
-                Button(
-                  onPressed: () {
-                    chooseAmount(context, product);
-                  },
-                  child: const ColorFiltered(
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    child: Icon(
-                      Icons.add_shopping_cart_rounded,
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 60,
+                      child: Visibility(
+                        visible: loggedUser!.role == Role.user ? true : false,
+                        child: Button(
+                          onPressed: () {
+                            chooseAmount(context, product);
+                          },
+                          child: const ColorFiltered(
+                            colorFilter:
+                                ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            child: Icon(
+                              Icons.add_shopping_cart_rounded,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                    Visibility(
+                      visible: loggedUser.role != Role.user ? true : false,
+                      child: Positioned(
+                          top: 23,
+                          left: 15,
+                          child: Text(
+                            "Stock: ${product.amount}",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -143,23 +168,46 @@ class ProductsViewState extends ConsumerState<ProductList> {
   }
 
   Widget buttonFinishOrder() {
+    User? loggedUser = ref.read(authProvider).loggedUser;
     finishOrder() async {
-      for (var product in listProductsChose) {
-        print("${product.name} ${product.amount}");
+      if (listProductsChose.isEmpty) {
+        const snackBar = SnackBar(
+            duration: Duration(seconds: 5),
+            content: Text(
+              'First you must choose a product, click on the cart to add a product',
+              style: TextStyle(fontSize: 25),
+            ));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        for (var product in listProductsChose) {
+          print("${product.name} ${product.amount}");
+        }
+        try {
+          Navigator.pop(context);
+          Response response = await post(
+              Uri.parse("$url/orders/user/${loggedUser!.id}"),
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${loggedUser.jwt}"
+              },
+              body: jsonEncode({
+                "products": listProductsChose,
+              }));
+          print(response.statusCode);
+          listProductsChose = [];
+          final jsonData = jsonDecode(response.body);
+          final snackBar = SnackBar(
+              duration: const Duration(seconds: 5),
+              content: Text(
+                'Order with id ${jsonData["id"]} was created successfully',
+                style: const TextStyle(fontSize: 25),
+              ));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } catch (e) {
+          print(e.toString());
+          print("Jeison te amo");
+        }
       }
-      try {
-        Response response = await post(Uri.parse("$url/orders/user/1"),
-            headers: {"Content-Type": "application/json"},
-            body: jsonEncode({
-              "products": listProductsChose,
-            }));
-        print(response.statusCode);
-        listProductsChose = [];
-      } catch (e) {
-        print(e.toString());
-        print("Jeison te amo");
-      }
-      Navigator.pop(context);
     }
 
     return Column(
@@ -167,9 +215,12 @@ class ProductsViewState extends ConsumerState<ProductList> {
         Center(
           child: Column(
             children: [
-              Button(
-                onPressed: finishOrder,
-                child: const Text("Finish Order"),
+              Visibility(
+                visible: loggedUser!.role == Role.user ? true : false,
+                child: Button(
+                  onPressed: finishOrder,
+                  child: const Text("Finish Order"),
+                ),
               ),
             ],
           ),
@@ -207,16 +258,28 @@ class ProductsViewState extends ConsumerState<ProductList> {
             onPressed: () {
               String amountText = amountProduct.text;
               int amount = int.tryParse(amountText) ?? 0;
-
-              ProductDTO productChose = ProductDTO(
-                product.name.toString(),
-                amount,
-              );
-              listProductsChose.add(productChose);
-              amountProduct.clear();
+              if (amount <= 0) {
+                const snackBar = SnackBar(
+                    duration: Duration(seconds: 2),
+                    content: Text(
+                      'Amount incorrect, must be greater than 0',
+                      style: TextStyle(fontSize: 25),
+                    ));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              } else {
+                setState(() {
+                  ProductDTO productChose = ProductDTO(
+                    product.name.toString(),
+                    amount,
+                  );
+                  listProductsChose.add(productChose);
+                });
+                amountProduct.clear();
+                Navigator.pop(context);
+              }
             },
             child: const Text(
-              "Aceptar",
+              "OK",
             ),
           ),
         ],

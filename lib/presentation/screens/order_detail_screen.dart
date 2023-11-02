@@ -144,10 +144,7 @@ class _OrderDetailViewState extends ConsumerState<OrderDetailView> {
                         child: Button(
                           onPressed: () {
                             print("hola");
-                            setState(() {
-                              snapshot.data!.delivered = true;
-                            });
-                            markDelivered(snapshot.data!.id, loggedUser.jwt);
+                            markDelivered(snapshot.data, loggedUser.jwt);
                           },
                           child: const Text("Mark Delivered"),
                         ),
@@ -167,21 +164,47 @@ class _OrderDetailViewState extends ConsumerState<OrderDetailView> {
         });
   }
 
-  markDelivered(int id, String jwt) async {
+  markDelivered(OrderDetails? orderDetails, String jwt) async {
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'Authorization': "Bearer $jwt"
     };
-    try {
-      Response response =
-          await patch(Uri.parse("$url/orders/$id"), headers: requestHeaders);
-      if (response.statusCode == 200) {
-        print(response.body);
-      }
-    } catch (e) {
-      print(e);
-    }
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Mark order as delivered"),
+        content: Text("Are you sure of mark this order as delivered?"),
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: Button(
+                  child: Text("OK"),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await patch(Uri.parse("$url/orders/${orderDetails!.id}"),
+                        headers: requestHeaders);
+                    setState(() {
+                      orderDetails.delivered = true;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Button(
+                    type: ButtonType.secondary,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancel")),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   showProductsOrdered(List<ProductDetailsDTO> dataProducts) {

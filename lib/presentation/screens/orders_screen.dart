@@ -101,9 +101,12 @@ class _OrdersViewState extends ConsumerState<OrdersView> {
             return ListView(
               children: [
                 ...showListOrders(snapshot.data ?? []),
-                Button(
-                  onPressed: _createNewOrder,
-                  child: const Text("New Order"),
+                Visibility(
+                  visible: loggedUser!.role == Role.user ? true : false,
+                  child: Button(
+                    onPressed: _createNewOrder,
+                    child: const Text("New Order"),
+                  ),
                 ),
               ],
             );
