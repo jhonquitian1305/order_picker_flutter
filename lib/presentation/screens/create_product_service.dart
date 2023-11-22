@@ -4,11 +4,12 @@ import 'dart:io';
 import 'package:order_picker/domain/entities/create_product_dto.dart';
 import 'package:order_picker/domain/entities/new_product.dart';
 import 'package:order_picker/domain/entities/product.dart';
+import 'package:order_picker/domain/entities/user.dart';
 import 'package:order_picker/infrastructure/constants/url_string.dart';
 import 'package:order_picker/presentation/screens/image_service.dart';
 import 'package:http/http.dart' as http;
 
-Future<Product> createProduct(NewProduct newProduct) async {
+Future<Product> createProduct(NewProduct newProduct, User? loggedUser) async {
   if (!newProduct.isValid()) throw Exception('Image is required');
   String imageUrl = await uploadImage(newProduct.image ?? File(''));
   var productDto = CreateProductDTO(
@@ -23,6 +24,7 @@ Future<Product> createProduct(NewProduct newProduct) async {
     body: jsonEncode(productDto),
     headers: {
       'Content-Type': 'application/json',
+      "Authorization": "Bearer ${loggedUser?.jwt}",
     },
   );
 

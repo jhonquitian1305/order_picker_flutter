@@ -1,20 +1,25 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:order_picker/domain/entities/new_product.dart';
+import 'package:order_picker/presentation/providers/auth_provider.dart';
 import 'package:order_picker/presentation/screens/create_product_service.dart';
 import 'package:order_picker/presentation/widgets/button.dart';
 import 'package:order_picker/presentation/widgets/image_filed.dart';
+
 import 'package:order_picker/presentation/widgets/rounded_text_field.dart';
 
-class NewProductDemo extends StatefulWidget {
+class NewProductDemo extends ConsumerStatefulWidget {
   const NewProductDemo({super.key});
 
   @override
-  _NewProductDemoState createState() => _NewProductDemoState();
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _NewProductDemoState();
+  }
 }
 
-class _NewProductDemoState extends State<NewProductDemo> {
+class _NewProductDemoState extends ConsumerState<NewProductDemo> {
   NewProduct newProduct = NewProduct();
 
   @override
@@ -61,7 +66,29 @@ class _NewProductDemoState extends State<NewProductDemo> {
               if (!validNewProduct()) {
                 return;
               }
-              await createProduct(newProduct);
+              await createProduct(newProduct, ref.read(authProvider).loggedUser)
+                  .whenComplete(
+                () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Succes'),
+                    content: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Product created!",
+                        ),
+                      ],
+                    ),
+                    actions: <Widget>[
+                      Button(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
           ),
         ]),
