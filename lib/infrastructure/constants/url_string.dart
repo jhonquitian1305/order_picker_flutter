@@ -1,1 +1,1 @@
-String url = "http://192.168.193.202:8080/api/order-picker";
+String url = "http://192.168.1.21:8080/api/order-picker";

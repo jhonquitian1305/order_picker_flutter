@@ -32,13 +32,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: _selectedWidget ??
-            Center(
-              child: Text(
-                  "Usuario logueado: id: ${loggedUser?.id}, name: ${loggedUser?.name}, role: ${loggedUser?.role.value}, jwt: ${loggedUser?.jwt}"),
-            ),
-      ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _selectedWidget ??
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Bienvenido, ${loggedUser?.name}",
+                        style: Theme.of(context).textTheme.headlineLarge),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                        "Por favor, seleccione una opción del menú desplegable.",
+                        style: Theme.of(context).textTheme.bodyLarge)
+                  ],
+                ),
+              )),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
