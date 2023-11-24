@@ -1,0 +1,236 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.order_picker"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+8-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml
+10    <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
+11    <!-- <uses-sdk android:minSdkVersion="14"/> -->
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:25:5-79
+12-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:25:22-76
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:26:5-67
+13-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:26:22-64
+14
+15    <permission
+15-->[androidx.core:core:1.10.1] /home/quitian/.gradle/caches/transforms-3/d2bdb852b4afb82627ab30e2565a0334/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
+16        android:name="com.example.order_picker.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+16-->[androidx.core:core:1.10.1] /home/quitian/.gradle/caches/transforms-3/d2bdb852b4afb82627ab30e2565a0334/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
+17        android:protectionLevel="signature" />
+17-->[androidx.core:core:1.10.1] /home/quitian/.gradle/caches/transforms-3/d2bdb852b4afb82627ab30e2565a0334/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
+18
+19    <uses-permission android:name="com.example.order_picker.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+19-->[androidx.core:core:1.10.1] /home/quitian/.gradle/caches/transforms-3/d2bdb852b4afb82627ab30e2565a0334/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
+19-->[androidx.core:core:1.10.1] /home/quitian/.gradle/caches/transforms-3/d2bdb852b4afb82627ab30e2565a0334/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
+20
+21    <application
+22        android:name="android.app.Application"
+22-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:4:9-42
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.10.1] /home/quitian/.gradle/caches/transforms-3/d2bdb852b4afb82627ab30e2565a0334/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
+24        android:icon="@mipmap/ic_launcher"
+24-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:5:9-43
+25        android:label="order_picker" >
+25-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:3:9-37
+26        <activity
+26-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:6:9-26:20
+27            android:name="com.example.order_picker.MainActivity"
+27-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:7:13-41
+28            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+28-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:11:13-163
+29            android:exported="true"
+29-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:8:13-36
+30            android:hardwareAccelerated="true"
+30-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:12:13-47
+31            android:launchMode="singleTop"
+31-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:9:13-43
+32            android:theme="@style/LaunchTheme"
+32-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:10:13-47
+33            android:windowSoftInputMode="adjustResize" >
+33-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:13:13-55
+34
+35            <!--
+36                 Specifies an Android theme to apply to this Activity as soon as
+37                 the Android process has started. This theme is visible to the user
+38                 while the Flutter UI initializes. After that, this theme continues
+39                 to determine the Window background behind the Flutter UI.
+40            -->
+41            <meta-data
+41-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:18:13-21:17
+42                android:name="io.flutter.embedding.android.NormalTheme"
+42-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:19:15-70
+43                android:resource="@style/NormalTheme" />
+43-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:20:15-52
+44
+45            <intent-filter>
+45-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:22:13-25:29
+46                <action android:name="android.intent.action.MAIN" />
+46-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:23:17-68
+46-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:23:25-66
+47
+48                <category android:name="android.intent.category.LAUNCHER" />
+48-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:24:17-76
+48-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:24:27-74
+49            </intent-filter>
+50        </activity>
+51        <!--
+52             Don't delete the meta-data below.
+53             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+54        -->
+55        <meta-data
+55-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:29:9-31:33
+56            android:name="flutterEmbedding"
+56-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:30:13-44
+57            android:value="2" />
+57-->/home/quitian/Documents/portfolio/codigo/order_picker_flutter/android/app/src/main/AndroidManifest.xml:31:13-30
+58
+59        <service
+59-->[:firebase_storage] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_storage/intermediates/merged_manifest/release/AndroidManifest.xml:10:9-14:19
+60            android:name="com.google.firebase.components.ComponentDiscoveryService"
+60-->[:firebase_storage] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_storage/intermediates/merged_manifest/release/AndroidManifest.xml:10:18-89
+61            android:directBootAware="true"
+61-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:34:13-43
+62            android:exported="false" >
+62-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:31:13-37
+63            <meta-data
+63-->[:firebase_storage] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_storage/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-13:85
+64                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
+64-->[:firebase_storage] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_storage/intermediates/merged_manifest/release/AndroidManifest.xml:12:17-126
+65                android:value="com.google.firebase.components.ComponentRegistrar" />
+65-->[:firebase_storage] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_storage/intermediates/merged_manifest/release/AndroidManifest.xml:13:17-82
+66            <meta-data
+66-->[:firebase_core] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_core/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-13:85
+67                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+67-->[:firebase_core] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_core/intermediates/merged_manifest/release/AndroidManifest.xml:12:17-124
+68                android:value="com.google.firebase.components.ComponentRegistrar" />
+68-->[:firebase_core] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/firebase_core/intermediates/merged_manifest/release/AndroidManifest.xml:13:17-82
+69            <meta-data
+69-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:32:13-34:85
+70                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+70-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:33:17-107
+71                android:value="com.google.firebase.components.ComponentRegistrar" />
+71-->[com.google.firebase:firebase-storage:20.2.1] /home/quitian/.gradle/caches/transforms-3/c4e1824a097b439b965a61b27dc88183/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:34:17-82
+72        </service>
+73
+74        <provider
+74-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:10:9-18:20
+75            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+75-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-82
+76            android:authorities="com.example.order_picker.flutter.image_provider"
+76-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:12:13-74
+77            android:exported="false"
+77-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-37
+78            android:grantUriPermissions="true" >
+78-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:14:13-47
+79            <meta-data
+79-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-17:75
+80                android:name="android.support.FILE_PROVIDER_PATHS"
+80-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:16:17-67
+81                android:resource="@xml/flutter_image_picker_file_paths" />
+81-->[:image_picker_android] /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:17:17-72
+82        </provider>
+83
+84        <activity
+84-->[com.google.android.gms:play-services-base:18.0.1] /home/quitian/.gradle/caches/transforms-3/f46872f19fc48f4d97e8ffc9ee9d6807/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+85            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+85-->[com.google.android.gms:play-services-base:18.0.1] /home/quitian/.gradle/caches/transforms-3/f46872f19fc48f4d97e8ffc9ee9d6807/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+86            android:exported="false"
+86-->[com.google.android.gms:play-services-base:18.0.1] /home/quitian/.gradle/caches/transforms-3/f46872f19fc48f4d97e8ffc9ee9d6807/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+87            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+87-->[com.google.android.gms:play-services-base:18.0.1] /home/quitian/.gradle/caches/transforms-3/f46872f19fc48f4d97e8ffc9ee9d6807/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+88
+89        <provider
+89-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:25:9-30:39
+90            android:name="com.google.firebase.provider.FirebaseInitProvider"
+90-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:26:13-77
+91            android:authorities="com.example.order_picker.firebaseinitprovider"
+91-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:27:13-72
+92            android:directBootAware="true"
+92-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:28:13-43
+93            android:exported="false"
+93-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:29:13-37
+94            android:initOrder="100" />
+94-->[com.google.firebase:firebase-common:20.3.3] /home/quitian/.gradle/caches/transforms-3/04d54205cae76f1c8bb124053dfe73f4/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:30:13-36
+95
+96        <meta-data
+96-->[com.google.android.gms:play-services-basement:18.1.0] /home/quitian/.gradle/caches/transforms-3/98537e5ec70bbb9b95a3c4905239e936/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:21:9-23:69
+97            android:name="com.google.android.gms.version"
+97-->[com.google.android.gms:play-services-basement:18.1.0] /home/quitian/.gradle/caches/transforms-3/98537e5ec70bbb9b95a3c4905239e936/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:22:13-58
+98            android:value="@integer/google_play_services_version" />
+98-->[com.google.android.gms:play-services-basement:18.1.0] /home/quitian/.gradle/caches/transforms-3/98537e5ec70bbb9b95a3c4905239e936/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:23:13-66
+99
+100        <uses-library
+100-->[androidx.window:window:1.0.0-beta04] /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+101            android:name="androidx.window.extensions"
+101-->[androidx.window:window:1.0.0-beta04] /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+102            android:required="false" />
+102-->[androidx.window:window:1.0.0-beta04] /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+103        <uses-library
+103-->[androidx.window:window:1.0.0-beta04] /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+104            android:name="androidx.window.sidecar"
+104-->[androidx.window:window:1.0.0-beta04] /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+105            android:required="false" />
+105-->[androidx.window:window:1.0.0-beta04] /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+106
+107        <provider
+107-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:24:9-32:20
+108            android:name="androidx.startup.InitializationProvider"
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:25:13-67
+109            android:authorities="com.example.order_picker.androidx-startup"
+109-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:26:13-68
+110            android:exported="false" >
+110-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:27:13-37
+111            <meta-data
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+112                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+112-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+113                android:value="androidx.startup" />
+113-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+114        </provider>
+115
+116        <receiver
+116-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+117            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+117-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+118            android:directBootAware="false"
+118-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+119            android:enabled="true"
+119-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+120            android:exported="true"
+120-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+121            android:permission="android.permission.DUMP" >
+121-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+122            <intent-filter>
+122-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+123                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+123-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+123-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+124            </intent-filter>
+125            <intent-filter>
+125-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+126                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+126-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+126-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+127            </intent-filter>
+128            <intent-filter>
+128-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+129                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+129-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+129-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+130            </intent-filter>
+131            <intent-filter>
+131-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+132                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+132-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+132-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/quitian/.gradle/caches/transforms-3/8b88e7c122a064b104ffe866a25b971f/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+133            </intent-filter>
+134        </receiver>
+135    </application>
+136
+137</manifest>

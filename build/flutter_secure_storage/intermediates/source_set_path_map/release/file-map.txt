@@ -1,0 +1,13 @@
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-jetified-window-1.0.0-beta04-0 /home/quitian/.gradle/caches/transforms-3/18aed9bf87fc054bde2369bbce815f68/transformed/jetified-window-1.0.0-beta04/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-jetified-annotation-experimental-1.1.0-1 /home/quitian/.gradle/caches/transforms-3/33edf3ee0517c86776bd6cb7682045f3/transformed/jetified-annotation-experimental-1.1.0/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-jetified-security-crypto-1.1.0-alpha06-2 /home/quitian/.gradle/caches/transforms-3/85b9cd188c87ddc640dbc130f0cbf7b3/transformed/jetified-security-crypto-1.1.0-alpha06/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-jetified-window-java-1.0.0-beta04-3 /home/quitian/.gradle/caches/transforms-3/c432125e31208403c91c32696aef3709/transformed/jetified-window-java-1.0.0-beta04/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-core-1.6.0-4 /home/quitian/.gradle/caches/transforms-3/cfb1b99aff7ad9cf4c1b8532c6075063/transformed/core-1.6.0/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-main-5 /home/quitian/.pub-cache/hosted/pub.dev/flutter_secure_storage-9.0.0/android/src/main/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-release-6 /home/quitian/.pub-cache/hosted/pub.dev/flutter_secure_storage-9.0.0/android/src/release/res
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-pngs-7 /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/flutter_secure_storage/generated/res/pngs/release
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-resValues-8 /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/flutter_secure_storage/generated/res/resValues/release
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-rs-9 /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/flutter_secure_storage/generated/res/rs/release
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-mergeReleaseResources-10 /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/flutter_secure_storage/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-mergeReleaseResources-11 /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/flutter_secure_storage/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.it_nomads.fluttersecurestorage.flutter_secure_storage-merged_res-12 /home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/flutter_secure_storage/intermediates/merged_res/release

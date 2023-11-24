@@ -1,0 +1,4 @@
+#Fri Nov 24 17:41:27 COT 2023
+base.0=/home/quitian/Documents/portfolio/codigo/order_picker_flutter/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
