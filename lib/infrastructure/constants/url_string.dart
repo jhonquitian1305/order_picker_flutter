@@ -1,1 +1,1 @@
-String url = "http://192.168.1.21:8080/api/order-picker";
+String url = "https://order-picker-production.up.railway.app/api/order-picker";
